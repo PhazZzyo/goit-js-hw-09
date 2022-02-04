@@ -53,12 +53,16 @@ startButton.addEventListener('click', () => {
 
     const loadingMessage = days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's ';
 
-    Notiflix.Loading.hourglass(loadingMessage);
+    Notiflix.Loading.hourglass(loadingMessage, {
+      clickToClose: true,
+    });
+    Notiflix.Loading.change(loadingMessage);
 
     // If the count down is finished, write a message
     if (distance <= 0) {
       clearInterval(timer);
-      Notiflix.Notify.failure('Timer is epired');
+      Notiflix.Loading.remove();
+      Notiflix.Notify.failure('Timer is expired');
     }
   }, 1000);
 });
