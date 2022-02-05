@@ -43,10 +43,13 @@ function handleSubmit(event) {
   let counter = 0;
 
   while (counter < amount) {
-    const delayStep = step + counter * delay;
-    // createPromise(counter, delayStep);
+    const delayCalc = counter * delay;
+    console.log(delayCalc);
+    console.log(step + delayCalc);
+    const delayStep = step + delayCalc;
     counter += 1;
-    console.log('counter: ', counter, 'delayStep: ', delayStep);
+    // createPromise(counter, delayStep);
+    console.log('counter: ', counter, 'delayStep: ', delayStep, 'step: ', step);
   }
   // const {
   //   elements: { email, message },
@@ -56,6 +59,5 @@ function handleSubmit(event) {
   //   return alert('Please fill in all the fields!');
   // }
 
-  console.log(`Email: ${email.value}, message: ${message.value}`);
   // event.currentTarget.reset();
 }
