@@ -5,33 +5,7 @@ const delayInput = document.querySelector('[name="delay"]');
 const stepInput = document.querySelector('[name="step"]');
 const amountInput = document.querySelector('[name="amount"]');
 
-// form.addEventListener('change', handleInput);
 form.addEventListener('submit', handleSubmit);
-
-// function createPromise(position, delay) {
-//   const shouldResolve = Math.random() > 0.3;
-//   if (shouldResolve) {
-//     // Fulfill
-//   } else {
-//     // Reject
-//   }
-// }
-
-// createPromise(2, 1500)
-//   .then(({ position, delay }) => {
-//     console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-//   })
-//   .catch(({ position, delay }) => {
-//     console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-//   });
-
-// function handleInput() {
-//   const delay = delayInput.value;
-//   const step = stepInput.value;
-//   const amount = amountInput.value;
-
-//   console.log(`1 ${delay}, 2 ${step}, 3 ${amount}`);
-// }
 
 function handleSubmit(event) {
   event.preventDefault();
@@ -43,21 +17,28 @@ function handleSubmit(event) {
   let counter = 0;
 
   while (counter < amount) {
-    const delayCalc = counter * delay;
-    console.log(delayCalc);
-    console.log(step + delayCalc);
-    const delayStep = step + delayCalc;
+    const delayStep = counter * ~~step + ~~delay;
     counter += 1;
-    // createPromise(counter, delayStep);
-    console.log('counter: ', counter, 'delayStep: ', delayStep, 'step: ', step);
+    createPromise(counter, delayStep)
+      .then(({ position, delay }) => {
+        Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+      })
+      .catch(({ position, delay }) => {
+        Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+      });
   }
-  // const {
-  //   elements: { email, message },
-  // } = event.currentTarget;
+}
 
-  // if (email.value === '' || message.value === '') {
-  //   return alert('Please fill in all the fields!');
-  // }
-
-  // event.currentTarget.reset();
+function createPromise(position, delay) {
+  const shouldResolve = Math.random() > 0.3;
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (shouldResolve) {
+        resolve({ position, delay });
+      } else {
+        reject({ position, delay });
+      }
+    }, delay);
+  });
+  return promise;
 }
