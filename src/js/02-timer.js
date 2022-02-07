@@ -9,7 +9,6 @@ const inputMinutes = document.querySelector('[data-minutes]');
 const inputSeconds = document.querySelector('[data-seconds]');
 
 let inputDate = '';
-let currentDate = '';
 
 startButton.disabled = true;
 
@@ -21,7 +20,7 @@ const options = {
   onClose(selectedDates) {
     console.log(selectedDates[0]);
     inputDate = selectedDates[0];
-    currentDate = new Date().getTime();
+    let currentDate = new Date().getTime();
     console.log(currentDate);
     if (currentDate >= inputDate) {
       Notiflix.Notify.failure('Please choose a date in the future');
@@ -34,11 +33,11 @@ const options = {
 flatpickr('#datetime-picker', options);
 
 startButton.addEventListener('click', () => {
-  Notiflix.Notify.success('Timer is started');
+  Notiflix.Notify.success('Timer was started');
   const timer = setInterval(() => {
     // Find the distance between now and the count down date
-    currentDate = new Date().getTime();
-    const distance = inputDate - currentDate;
+    let currentDate = new Date().getTime();
+    let distance = inputDate - currentDate;
 
     // Time calculations for days, hours, minutes and seconds
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -51,7 +50,7 @@ startButton.addEventListener('click', () => {
     inputMinutes.innerHTML = minutes;
     inputSeconds.innerHTML = seconds;
 
-    const loadingMessage = days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's ';
+    let loadingMessage = days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's ';
 
     Notiflix.Loading.hourglass(loadingMessage, {
       clickToClose: true,
@@ -59,10 +58,10 @@ startButton.addEventListener('click', () => {
     Notiflix.Loading.change(loadingMessage);
 
     // If the count down is finished, write a message
-    if (distance <= 0) {
+    if (distance < 1000) {
       clearInterval(timer);
       Notiflix.Loading.remove();
-      Notiflix.Notify.failure('Timer is expired');
+      Notiflix.Notify.failure('Timer has expired');
     }
   }, 1000);
 });
